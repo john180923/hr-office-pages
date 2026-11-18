@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>HR Office</title>
+<style>
+:root{font:16px/1.55 system-ui;color:#17283c;background:#eef2f7}
+main{max-width:660px;margin:8vh auto;padding:20px}
+form{background:white;border:1px solid #dbe3ee;border-radius:16px;padding:24px}
+label{font-weight:700}
+textarea{box-sizing:border-box;width:100%;min-height:200px;padding:12px;border:1px solid #9aaabe;border-radius:8px;font:inherit}
+button{padding:10px 16px;border:0;border-radius:8px;background:#17489a;color:white;font:inherit;cursor:pointer}
+a{color:#17489a}
+:focus-visible{outline:3px solid #1974d2;outline-offset:3px}
+#notice:empty{display:none}
+</style>
+<main>
+<h1>HR Office</h1>
+<nav aria-label="Разделы"><a href="#task-form">Новое задание</a> · <a href="#reports">Отчётность</a></nav>
+<br>
+<form id="task-form">
+<label for="task">Задание для Codex</label>
+<p id="hint">Опиши задачу своими словами. Например, укажи профиль Octo, площадку и какую вакансию разместить.</p>
+<textarea id="task" rows="8" required aria-describedby="hint"></textarea>
+<p id="notice" role="status"></p>
+<p><button type="submit">Открыть задание в GitHub</button></p>
+<p>GitHub откроет заполненный черновик. Нажми Create issue, чтобы отправить задание.</p>
+<a href="https://github.com/john180923/hr-office/issues">Открыть приватную очередь</a>
+</form>
+<section id="reports" aria-labelledby="reports-heading">
+<h2 id="reports-heading">Отчётность</h2>
+<p>В отчёте — вакансии в Канаде, результаты проверки Indeed и статус работы по очереди Octo.</p>
+<p><a href="https://github.com/john180923/hr-office/blob/main/publication-report.md">Открыть отчёт в приватном репозитории</a></p>
+</section>
+</main>
+<script>
+const form = document.querySelector('#task-form');
+const task = document.querySelector('#task');
+const notice = document.querySelector('#notice');
+task.addEventListener('input', () => { notice.textContent = ''; });
+form.addEventListener('submit', event => {
+  event.preventDefault();
+  const body = task.value.trim();
+  if (!body) {
+    notice.textContent = 'Введи текст задания.';
+    task.focus();
+    return;
+  }
+  const url = 'https://github.com/john180923/hr-office/issues/new?title='
+    + encodeURIComponent('Octo · задание для Codex') + '&body=' + encodeURIComponent(body);
+  if (url.length > 7000) {
+    notice.textContent = 'Текст слишком длинный для переноса по ссылке. Открой очередь и вставь текст в новое задание.';
+    return;
+  }
+  window.location.assign(url);
+});
+</script>
+</html>
