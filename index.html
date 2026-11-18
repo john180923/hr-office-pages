@@ -1,39 +1,97 @@
 <!doctype html>
 <html lang="ru">
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="referrer" content="no-referrer">
 <title>HR Office</title>
 <style>
-:root{font:16px/1.55 system-ui;color:#17283c;background:#eef2f7}
-main{max-width:660px;margin:8vh auto;padding:20px}
-form{background:white;border:1px solid #dbe3ee;border-radius:16px;padding:24px}
-label{font-weight:700}
-textarea{box-sizing:border-box;width:100%;min-height:200px;padding:12px;border:1px solid #9aaabe;border-radius:8px;font:inherit}
-button{padding:10px 16px;border:0;border-radius:8px;background:#17489a;color:white;font:inherit;cursor:pointer}
-a{color:#17489a}
-:focus-visible{outline:3px solid #1974d2;outline-offset:3px}
+:root{color-scheme:light;--bg:#f4f5f7;--ink:#19231f;--muted:#56635d;--edge:#e0e5e1;--green:#17553f;--rail:#152b23;font:16px/1.55 "Segoe UI",system-ui,sans-serif;color:var(--ink);background:var(--bg)}
+*{box-sizing:border-box}
+body{margin:0}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:3px solid #5b9a7e;outline-offset:4px}
+.layout{display:grid;grid-template-columns:245px minmax(0,1fr);min-height:100vh}
+.rail{background:var(--rail);color:#eef7f1;padding:36px 20px}
+.brand{display:flex;align-items:center;gap:12px;padding:0 9px;font-size:21px;font-weight:700;letter-spacing:-.6px}
+.mark{display:grid;place-items:center;width:35px;height:35px;border-radius:9px;background:#b4e2c9;color:#152b23;font-size:13px;letter-spacing:.2px}
+nav{display:grid;gap:6px;margin-top:58px}
+nav a{display:flex;align-items:center;gap:12px;padding:11px 13px;border-radius:8px;font-size:15px}
+nav a:hover,nav a:focus-visible{background:#29443a}
+nav .primary{background:#29443a}
+.nav-icon{display:grid;place-items:center;width:23px;font-size:19px;color:#c0d9cb}
+.workspace{width:min(100%,1380px);padding:54px clamp(30px,5vw,82px) 60px;margin-inline:auto}
+header{padding-bottom:27px;border-bottom:1px solid var(--edge);margin-bottom:28px}
+h1,h2,p{margin:0}
+h1{font-size:clamp(36px,3.6vw,54px);letter-spacing:-.06em;line-height:1.05;font-weight:720}
+header p{margin-top:12px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(235px,1fr);align-items:start;gap:22px}
+.card{background:#fff;border:1px solid var(--edge);border-radius:15px;padding:clamp(22px,2.7vw,35px);box-shadow:0 3px 13px #1e322007}
+.card h2{font-size:22px;line-height:1.25;letter-spacing:-.035em}
+.card p{color:var(--muted);font-size:14px}
+.card h2+p{margin-top:9px}
+label{display:block;margin:25px 0 8px;font-size:14px;font-weight:650}
+textarea{display:block;width:100%;min-height:222px;padding:14px 16px;border:1px solid #c8d1cb;border-radius:9px;background:#f9fbfa;font:inherit;color:var(--ink);resize:vertical}
+textarea::placeholder{color:#68756e}
+textarea:focus{background:white;border-color:#5b9a7e}
+.actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:20px}
+button{border:0;border-radius:8px;background:var(--green);padding:11px 17px;color:white;font:inherit;font-size:14px;font-weight:650;cursor:pointer;white-space:nowrap}
+button:hover{background:#103e2e}
+.actions p{font-size:13px}
+#notice{margin-top:10px;color:#9a352a}
 #notice:empty{display:none}
+.side{display:grid;gap:16px}
+.side .card{padding:25px}
+.link{display:inline-flex;align-items:center;gap:9px;color:var(--green);font-size:14px;font-weight:700;margin-top:18px}
+.link:hover{text-decoration:underline;text-underline-offset:4px}
+.section-icon{display:grid;place-items:center;width:36px;height:36px;border-radius:9px;background:#e7f1eb;color:var(--green);margin-bottom:17px;font-size:19px}
+@media(max-width:1050px){.layout{grid-template-columns:188px minmax(0,1fr)}.rail{padding-inline:12px}.grid{grid-template-columns:minmax(0,1fr)}.side{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
-<main>
-<h1>HR Office</h1>
-<nav aria-label="Разделы"><a href="#task-form">Новое задание</a> · <a href="#reports">Отчётность</a></nav>
-<br>
-<form id="task-form">
+</head>
+<body>
+<div class="layout">
+<aside class="rail">
+<a class="brand" href="./"><span class="mark" aria-hidden="true">HR</span> HR Office</a>
+<nav aria-label="Разделы">
+<a class="primary" href="#task-form"><span class="nav-icon" aria-hidden="true">＋</span>Новое задание</a>
+<a href="https://github.com/john180923/hr-office/issues"><span class="nav-icon" aria-hidden="true">≡</span>Очередь задач</a>
+<a href="#reports"><span class="nav-icon" aria-hidden="true">▥</span>Отчётность</a>
+</nav>
+</aside>
+<main class="workspace">
+<header>
+<h1>Рабочая панель</h1>
+<p>Задания Codex и отчёты о публикациях</p>
+</header>
+<div class="grid">
+<form id="task-form" class="card" aria-labelledby="task-heading">
+<h2 id="task-heading">Новое задание</h2>
+<p id="hint">Укажи профиль Octo, площадку и что нужно разместить.</p>
 <label for="task">Задание для Codex</label>
-<p id="hint">Опиши задачу своими словами. Например, укажи профиль Octo, площадку и какую вакансию разместить.</p>
-<textarea id="task" rows="8" required aria-describedby="hint"></textarea>
+<textarea id="task" rows="8" required aria-describedby="hint" placeholder="Открой в Octo профиль … и размести на Indeed вакансию …"></textarea>
 <p id="notice" role="status"></p>
-<p><button type="submit">Открыть задание в GitHub</button></p>
-<p>GitHub откроет заполненный черновик. Нажми Create issue, чтобы отправить задание.</p>
-<a href="https://github.com/john180923/hr-office/issues">Открыть приватную очередь</a>
+<div class="actions">
+<button type="submit">Открыть черновик в GitHub <span aria-hidden="true">↗</span></button>
+<p>Для отправки нажми <strong>Create issue</strong> в GitHub.</p>
+</div>
 </form>
-<section id="reports" aria-labelledby="reports-heading">
-<h2 id="reports-heading">Отчётность</h2>
-<p>В отчёте — вакансии в Канаде, результаты проверки Indeed и статус работы по очереди Octo.</p>
-<p><a href="https://github.com/john180923/hr-office/blob/main/publication-report.md">Открыть отчёт в приватном репозитории</a></p>
+<div class="side">
+<section class="card" aria-labelledby="queue-heading">
+<div class="section-icon" aria-hidden="true">≡</div>
+<h2 id="queue-heading">Очередь задач</h2>
+<p>Открой отправленные задания и проверь их статус.</p>
+<a class="link" href="https://github.com/john180923/hr-office/issues">Приватная очередь <span aria-hidden="true">↗</span></a>
 </section>
+<section id="reports" class="card" aria-labelledby="reports-heading">
+<div class="section-icon" aria-hidden="true">▥</div>
+<h2 id="reports-heading">Отчётность</h2>
+<p>Вакансии в Канаде, отклики в Indeed и статус работы в Octo.</p>
+<a class="link" href="https://github.com/john180923/hr-office/blob/main/publication-report.md">Приватный отчёт <span aria-hidden="true">↗</span></a>
+</section>
+</div>
+</div>
 </main>
+</div>
 <script>
 const form = document.querySelector('#task-form');
 const task = document.querySelector('#task');
@@ -56,4 +114,5 @@ form.addEventListener('submit', event => {
   window.location.assign(url);
 });
 </script>
+</body>
 </html>
